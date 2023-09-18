@@ -37,6 +37,7 @@ dataset = pd.read_csv('Placement_Data_Full_Class.csv')
 dataset
 dataset.head()
 dataset.tail()
+# Dropping the serial number and salary column
 dataset = dataset.drop(['sl_no','ssc_p','gender','hsc_s'],axis=1)
 dataset
 dataset.shape
@@ -56,18 +57,22 @@ dataset["specialisation"] = dataset["specialisation"].cat.codes
 dataset["status"] = dataset["status"].cat.codes
 dataset.info()
 dataset
+# selecting the features and labels
 X = dataset.iloc[:, :-1].values
 Y = dataset.iloc[:, -1].values
 Y
+# dividing the data into train and test
 from sklearn.model_selection import train_test_split
 X_train,X_test,Y_train,Y_test=train_test_split(X,Y,test_size=0.2)
-
 dataset.head()
+# Creating a Classifier using Sklearn
 from sklearn.linear_model import LogisticRegression
 #clf=LogisticRegression(random_state=0,solver='lbfgs',max_iter=1000).fit(x_train,y_train)
+# Printing the acc
 clf = LogisticRegression()
 clf.fit(X_train,Y_train)
 clf.score(X_test,Y_test)
+# Predicting for random value
 clf.predict([[0,91,1,58,2,0,55.0,1,58.80]])
 
 ```
