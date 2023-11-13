@@ -1,135 +1,128 @@
 # Implementation-of-Logistic-Regression-Model-to-Predict-the-Placement-Status-of-Student
 
-## AIM:
-To write a program to implement the the Logistic Regression Model to Predict the Placement Status of Student . 
+## Aim:
+To write a program to implement the  Logistic Regression Model to Predict the Placement Status of Student.
 
 ## Equipments Required:
 1. Hardware – PCs
 2. Anaconda – Python 3.7 Installation / Jupyter notebook
 
-## Algorithm
-
-1.Import the standard libraries.
-
-
-2.Upload the dataset and check for any null or duplicated values using .isnull() and .duplicated() function respectively.
-
-
-3.Import LabelEncoder and encode the dataset.
-
-
-4.Import LogisticRegression from sklearn and apply the model on the dataset.
-
-
-5.Predict the values of array.
-
-
-6.Calculate the accuracy, confusion and classification report by importing the required modules from sklearn.
-
-
-7.Apply new unknown values
- 
+## Algorithm:
+1. Import the standard libraries.
+2. Upload the dataset and check for any null or duplicated values using .isnull() and .duplicated() function respectively.
+3. Import LabelEncoder and encode the dataset.
+4. Import LogisticRegression from sklearn and apply the model on the dataset.
+5. Predict the values of array.
+6. Calculate the accuracy, confusion and classification report by importing the required modules from sklearn.
+7. Apply new unknown values.
 
 ## Program:
-### Program to implement the the Logistic Regression Model to Predict the Placement Status of Student.
 ```
-
-# Developed by: THANJIYAPPAN.K
-# RegisterNumber: 212222240108
-# Import Library
+/*
+Program to implement the Logistic Regression Model to Predict the Placement Status of Student.
+Developed by: Smriti M
+RegisterNumber: 212221040157
+*/
 import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-#Read The File
-dataset=pd.read_csv('Placement_Data_Full_Class.csv')
-dataset
-dataset.head(10)
-dataset.tail(10)
-# Dropping the serial number and salary column
-dataset=dataset.drop(['sl_no','ssc_p','workex','ssc_b'],axis=1)
-dataset
-dataset.shape
-dataset.info()
-dataset["gender"]=dataset["gender"].astype('category')
-dataset["hsc_b"]=dataset["hsc_b"].astype('category')
-dataset["hsc_s"]=dataset["hsc_s"].astype('category')
-dataset["degree_t"]=dataset["degree_t"].astype('category')
-dataset["specialisation"]=dataset["specialisation"].astype('category')
-dataset["status"]=dataset["status"].astype('category')
-dataset.info()
-dataset["gender"]=dataset["gender"].cat.codes
-dataset["hsc_b"]=dataset["hsc_b"].cat.codes
-dataset["hsc_s"]=dataset["hsc_s"].cat.codes
-dataset["degree_t"]=dataset["degree_t"].cat.codes
-dataset["specialisation"]=dataset["specialisation"].cat.codes
-dataset["status"]=dataset["status"].cat.codes
-dataset.info()
-dataset
-# selecting the features and labels
-x=dataset.iloc[:, :-1].values
-y=dataset.iloc[: ,-1].values
-y
-# dividing the data into train and test
-from sklearn.model_selection import train_test_split
-x_train,x_test,y_train,y_test=train_test_split(x,y,test_size=0.2)
-dataset.head()
-y_train.shape
-x_train.shape
-# Creating a Classifier using Sklearn
-from sklearn.linear_model import LogisticRegression
-clf=LogisticRegression(random_state=0,solver='lbfgs',max_iter=1000).fit(x_train,y_train)
-# Printing the acc
-clf=LogisticRegression()
-clf.fit(x_train,y_train)
-clf.score(x_test,y_test)
-# Predicting for random value
-clf.predict([[1	,78.33,	1,	2,	77.48,	2,	86.5,	0,	66.28]])
+data = pd.read_csv("Placement_Data.csv")
+data.head()
 
+data1 = data.copy()
+data1 = data1.drop(["sl_no","salary"],axis = 1)
+data1.head()
+
+data1.isnull().sum()
+
+data1.duplicated().sum()
+
+from sklearn.preprocessing import LabelEncoder
+le = LabelEncoder()
+data1["gender"] = le.fit_transform(data1["gender"])
+data1["ssc_b"] = le.fit_transform(data1["ssc_b"])
+data1["hsc_b"] = le.fit_transform(data1["hsc_b"])
+data1["hsc_s"] = le.fit_transform(data1["hsc_s"])
+data1["degree_t"] = le.fit_transform(data1["degree_t"])
+data1["workex"] = le.fit_transform(data1["workex"])
+data1["specialisation"] = le.fit_transform(data1["specialisation"])
+data1["status"] = le.fit_transform(data1["status"])
+data1
+
+x = data1.iloc[:,:-1]
+x
+
+y = data1["status"]
+y
+
+from sklearn.model_selection import train_test_split
+x_train,x_test,y_train,y_test = train_test_split(x,y,test_size = 0.2,random_state = 0)
+
+from sklearn.linear_model import LogisticRegression
+lr = LogisticRegression(solver = "liblinear")
+lr.fit(x_train,y_train)
+
+y_pred = lr.predict(x_test)
+y_pred
+
+from sklearn.metrics import accuracy_score
+accuracy = accuracy_score(y_test,y_pred)
+accuracy
+
+from sklearn.metrics import confusion_matrix
+confusion = confusion_matrix(y_test,y_pred)
+confusion
+
+from sklearn.metrics import classification_report
+classification_report1 = classification_report(y_test,y_pred)
+classification_report1
+
+lr.predict([[1,80,1,90,1,1,90,1,0,85,1,85]])
 ```
 
 ## Output:
-### read csv file:
-![1](https://github.com/22009011/Implementation-of-Logistic-Regression-Model-to-Predict-the-Placement-Status-of-Student/assets/118343461/9c06188f-f8da-405f-b95c-0adb4a366ce8)
 
+## Placement data 
 
-### to read first ten data(head):
-![2](https://github.com/22009011/Implementation-of-Logistic-Regression-Model-to-Predict-the-Placement-Status-of-Student/assets/118343461/0954b6aa-e13f-4b6d-9385-ebdfe4ef2055)
+![s1](https://user-images.githubusercontent.com/113674204/231648649-33f7653d-1911-4ba3-91da-3e9356a138f2.png)
 
-### to read last ten data(tail):
-![3](https://github.com/22009011/Implementation-of-Logistic-Regression-Model-to-Predict-the-Placement-Status-of-Student/assets/118343461/5a4da338-e1e9-4b55-8529-ff983b29872f)
+## Salary data
 
+![s2](https://user-images.githubusercontent.com/113674204/231648766-c04dabd7-2e6a-4468-8a81-f06cfa522da4.png)
 
-### Dropping the serial number and salary column:
-![4](https://github.com/22009011/Implementation-of-Logistic-Regression-Model-to-Predict-the-Placement-Status-of-Student/assets/118343461/57897919-67dc-4f76-96c0-029ae36643e8)
+## Checking null function
 
-### Dataset Shape:
-![5](https://github.com/22009011/Implementation-of-Logistic-Regression-Model-to-Predict-the-Placement-Status-of-Student/assets/118343461/2b153f1c-bf3d-4046-a900-7e9698ccd2f3)
+![s3](https://user-images.githubusercontent.com/113674204/231648812-72501394-b313-4fdd-ac86-a24d01d8c91d.png)
 
-### Dataset Information:
-![6](https://github.com/22009011/Implementation-of-Logistic-Regression-Model-to-Predict-the-Placement-Status-of-Student/assets/118343461/1b75660d-a6db-4579-bb03-92ca1b96c8d8)
+## Data duplicate
 
-### Dataset after changing object into category:
-![7](https://github.com/22009011/Implementation-of-Logistic-Regression-Model-to-Predict-the-Placement-Status-of-Student/assets/118343461/9bb9632a-f36e-45e0-972c-145ad7b1a1c5)
+![s4](https://user-images.githubusercontent.com/113674204/231648864-7b407d77-f8f7-49b2-a05d-281b5b945041.png)
 
-### Dataset after changing category into integer:
-![8](https://github.com/22009011/Implementation-of-Logistic-Regression-Model-to-Predict-the-Placement-Status-of-Student/assets/118343461/d862c257-d3eb-4bb9-955e-fd875fba5c5e)
+## Print data
 
-### Displaying the Dataset:
-![9](https://github.com/22009011/Implementation-of-Logistic-Regression-Model-to-Predict-the-Placement-Status-of-Student/assets/118343461/bf84e5e1-12db-490f-9aed-195aa558324e)
+![s5](https://user-images.githubusercontent.com/113674204/231648946-47753b98-57e8-451e-abbd-276008a522d8.png)
 
-### Selecting the features and labels:
-![10](https://github.com/22009011/Implementation-of-Logistic-Regression-Model-to-Predict-the-Placement-Status-of-Student/assets/118343461/551ad914-00d0-4587-ac24-4a97dc61bed4)
+## Data status
 
-### Dividing the data into train and test:
-![11](https://github.com/22009011/Implementation-of-Logistic-Regression-Model-to-Predict-the-Placement-Status-of-Student/assets/118343461/c7608042-0339-4ae3-b06e-7b6038f7c7e6)
-### Shape of x_train and y_train:
-![12](https://github.com/22009011/Implementation-of-Logistic-Regression-Model-to-Predict-the-Placement-Status-of-Student/assets/118343461/c45cb545-cbaf-4854-b1b9-66c438940544)
-### Creating a Classifier using Sklearn:
-![13](https://github.com/22009011/Implementation-of-Logistic-Regression-Model-to-Predict-the-Placement-Status-of-Student/assets/118343461/fcd601ce-f052-40bd-acf3-16fd2a7ecb34)
+![s7](https://user-images.githubusercontent.com/113674204/231649135-14c5c342-5e42-455a-ac6f-27766be40fa2.png)
 
-Predicting for random value:
-![14](https://github.com/22009011/Implementation-of-Logistic-Regression-Model-to-Predict-the-Placement-Status-of-Student/assets/118343461/4dcc1e0c-3190-4f6d-b407-b66b80f5224a)
+## Y-prediction array
 
+![s8](https://user-images.githubusercontent.com/113674204/231649242-a6327390-6a81-4dbf-b9b3-31b70d4c727d.png)
+
+## Accuracy value
+
+![s9](https://user-images.githubusercontent.com/113674204/231649297-ce66d699-a122-47de-9c44-d8d4f94010e1.png)
+
+## Confusion array
+
+![s10](https://user-images.githubusercontent.com/113674204/231649352-cbff8b74-3fbc-46bf-95b9-7bd8139e9de3.png)
+
+## Classification report
+
+![s11](https://user-images.githubusercontent.com/113674204/231649409-913bd15b-c552-4690-a584-570be55c729d.png)
+
+## Prediction of LR
+
+![s12](https://user-images.githubusercontent.com/113674204/231649475-158f4706-b083-4431-879f-5642bd6903af.png)
 
 ## Result:
-Thus the program to implement the the Logistic Regression Model to Predict the Placement Status of Student is written and verified using python programming.
+Thus the program to implement the Logistic Regression Model to Predict the Placement Status of Student is written and verified using python programming.
